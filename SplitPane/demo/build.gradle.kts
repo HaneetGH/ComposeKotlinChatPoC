@@ -1,6 +1,7 @@
 import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -14,6 +15,11 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":SplitPane:library"))
                 implementation("io.coil-kt:coil-compose:1.4.0")
+
+                implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+                implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+                implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+                implementation ("androidx.compose.runtime:runtime-livedata:1.1.0")
             }
         }
     }
