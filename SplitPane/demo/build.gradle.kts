@@ -13,6 +13,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":SplitPane:library"))
+                implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
     }
