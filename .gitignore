@@ -1,0 +1,9 @@
+# Project exclude paths
+/.gradle/
+/build/
+/buildSrc/.gradle/
+/buildSrc/build/
+/SplitPane/demo/build/
+/SplitPane/demo/build/classes/kotlin/jvm/main/
+/SplitPane/library/build/
+/SplitPane/library/build/classes/kotlin/desktop/main/
