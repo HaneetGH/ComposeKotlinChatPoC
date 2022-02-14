@@ -177,6 +177,7 @@ fun printUserChat(user: UserQuickDetails) {
     }
 }
 
+
 class ClickUser(user: UserQuickDetails) {
     var user by mutableStateOf(user)
 }
