@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.*
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,6 +30,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -54,34 +57,6 @@ fun secondView(user: UserQuickDetails) {
 
 
 
-@Composable
-fun printUserList() {
-    // val context = LocalContext.current
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        items(listOfQuickDetails) { user ->
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .requiredSize(300.dp, 100.dp)
-                    .clickable(onClick = {
-                        clk.user = user
-
-                    })
-                    .clip(RoundedCornerShape(8.dp)),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                cardForUser(user)
-
-            }
-        }
-    }
-
-
-}
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -110,8 +85,9 @@ fun messagesListTopBar(user: UserQuickDetails) {
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.width(30.dp)
             )
-            Image (painter = painterResource("menu.png"),
-            contentDescription = "image",
+            Image(
+                painter = painterResource("menu.png"),
+                contentDescription = "image",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.width(30.dp).padding(all = 8.dp).fillMaxWidth(),
             )
@@ -119,3 +95,49 @@ fun messagesListTopBar(user: UserQuickDetails) {
         backgroundColor = Color.White
     )
 }
+
+
+@Composable
+fun floatingButton(fabClick: () -> Unit) {
+    FloatingActionButton(onClick = {
+        fabClick()
+    }) {
+        Image(
+            painter = painterResource("plus.png"),
+            contentDescription = "..profile.png",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.width(30.dp)
+        )
+    }
+}
+
+@Composable
+fun SenderIcon() {
+    Box(
+
+        modifier = Modifier.clip(CircleShape)
+            .size(30.dp)
+    ) {
+        Image(
+            painter = painterResource("profile.png"),
+            contentDescription = "..profile.png",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.width(30.dp)
+        )
+    }
+}
+
+@Composable
+fun Sender(sender: String, modifier: Modifier = Modifier) {
+    Text(
+        text = sender,
+        style = TextStyle(
+            color = Color.Black,
+            fontSize = 18.sp
+        ),
+        modifier = modifier,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 1
+    )
+}
+

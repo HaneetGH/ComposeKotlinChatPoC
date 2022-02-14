@@ -61,6 +61,10 @@ val listOfLastMessages: List<String> = listOf("I'm in india", "I'm in Japan", "I
 val listOfImagees: List<String> = listOf(IMAGE, IMAGE, IMAGE, IMAGE)
 val listOfTimes: List<String> = listOf("Today, 10:30 AM", "Today, 10:40 AM", "Today, 11:30 AM", "Today, 10:20 AM")
 val samepleChat: List<String> = listOf("How Are You", "Good", "And", "You?")
+val samepleChat2: List<String> = listOf("hey", "How", "You", "You?")
+val samepleChat3: List<String> = listOf("haneet is", "working", "compose", "You?")
+val samepleChat4: List<String> = listOf("How  You", "Good", "ttt", "You?")
+val listOfChats = listOf( samepleChat, samepleChat2, samepleChat3, samepleChat4 )
 var listOfQuickDetails: MutableList<UserQuickDetails> = mutableListOf()
 
 lateinit var clk: ClickUser
@@ -71,7 +75,8 @@ fun main() = singleWindowApplication(
 ) {
 
     for (i in 0..3) {
-        var quickMessages = UserQuickDetails(users[i], listOfLastMessages[i], listOfImagees[i], listOfTimes[i])
+        var quickMessages =
+            UserQuickDetails(users[i], listOfLastMessages[i], listOfImagees[i], listOfTimes[i], listOfChats[i])
         listOfQuickDetails.add(quickMessages)
     }
 
@@ -82,7 +87,7 @@ fun main() = singleWindowApplication(
             splitPaneState = splitterState
         ) {
             first(330.dp) {
-                printUserList()
+                printUserList(listOfQuickDetails)
             }
             second(50.dp) {
 
@@ -90,10 +95,10 @@ fun main() = singleWindowApplication(
                 secondView(clk.user)
 
             }
+
         }
     }
 }
-
 
 
 @Composable
@@ -144,40 +149,39 @@ fun cardForUser(user: UserQuickDetails) {
 }
 
 
-
 fun loadSvgPainter(url: String, density: Density): Painter =
     URL(url).openStream().buffered().use { loadSvgPainter(it, density) }
 
-
 @Composable
-fun printUserChat(user: UserQuickDetails) {
+fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
     // val context = LocalContext.current
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(samepleChat) { user ->
+        items(listOfUsers) { user ->
             Row(
                 modifier = Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
-                    .clickable(onClick = { })
+                    .requiredSize(300.dp, 100.dp)
+                    .clickable(onClick = {
+                        clk.user = user
+
+                    })
                     .clip(RoundedCornerShape(8.dp)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                cardForUser(user)
 
-                Text(
-                    text = user,
-                    style = MaterialTheme.typography.h5,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
             }
         }
     }
+
+
+
+
 }
-
-
 class ClickUser(user: UserQuickDetails) {
     var user by mutableStateOf(user)
 }
