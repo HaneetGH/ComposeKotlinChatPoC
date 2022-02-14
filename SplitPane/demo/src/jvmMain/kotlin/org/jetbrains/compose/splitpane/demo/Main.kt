@@ -94,59 +94,7 @@ fun main() = singleWindowApplication(
     }
 }
 
-@OptIn(ExperimentalSplitPaneApi::class)
-@Composable
-fun secondView(user: UserQuickDetails) {
-    val splitterState = rememberSplitPaneState()
-    val hSplitterState = rememberSplitPaneState()
-    VerticalSplitPane(splitPaneState = hSplitterState) {
-        first(50.dp) {
-            Box(Modifier.background(Color.Black).fillMaxSize()) {
-                printUserName(user)
-            }
-        }
-        second(20.dp) {
-            printUserChat(user)
-        }
-    }
 
-}
-
-@Composable
-fun printUserName(user: UserQuickDetails) {
-    Text(
-        color = Color.White,
-        text = user.user,
-        style = MaterialTheme.typography.subtitle2
-    )
-}
-
-@Composable
-fun printUserList() {
-    // val context = LocalContext.current
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        items(listOfQuickDetails) { user ->
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .requiredSize(300.dp, 100.dp)
-                    .clickable(onClick = {
-                        clk.user = user
-
-                    })
-                    .clip(RoundedCornerShape(8.dp)),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                cardForUser(user)
-
-            }
-        }
-    }
-}
 
 @Composable
 fun cardForUser(user: UserQuickDetails) {
@@ -195,37 +143,6 @@ fun cardForUser(user: UserQuickDetails) {
     }
 }
 
-@Composable
-fun <T> AsyncImage(
-    load: suspend () -> T,
-    painterFor: @Composable (T) -> Painter,
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.Fit,
-) {
-    val image: T? by produceState<T?>(null) {
-        value = withContext(Dispatchers.IO) {
-            try {
-                load()
-            } catch (e: IOException) {
-                // instead of printing to console, you can also write this to log,
-                // or show some error placeholder
-                e.printStackTrace()
-                null
-            }
-        }
-    }
-
-    if (image != null) {
-        Image(
-            contentScale = ContentScale.Crop,
-            alignment = Alignment.Center,
-            painter = painterFor(image!!),
-            contentDescription = contentDescription,
-            modifier = modifier
-        )
-    }
-}
 
 
 fun loadSvgPainter(url: String, density: Density): Painter =
