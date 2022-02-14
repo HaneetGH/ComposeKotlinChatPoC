@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -26,6 +27,11 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.loadSvgPainter
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 
 import androidx.compose.ui.unit.Density
@@ -64,7 +70,7 @@ val samepleChat: List<String> = listOf("How Are You", "Good", "And", "You?")
 val samepleChat2: List<String> = listOf("hey", "How", "You", "You?")
 val samepleChat3: List<String> = listOf("haneet is", "working", "compose", "You?")
 val samepleChat4: List<String> = listOf("How  You", "Good", "ttt", "You?")
-val listOfChats = listOf( samepleChat, samepleChat2, samepleChat3, samepleChat4 )
+val listOfChats = listOf(samepleChat, samepleChat2, samepleChat3, samepleChat4)
 var listOfQuickDetails: MutableList<UserQuickDetails> = mutableListOf()
 
 lateinit var clk: ClickUser
@@ -87,7 +93,10 @@ fun main() = singleWindowApplication(
             splitPaneState = splitterState
         ) {
             first(330.dp) {
-                printUserList(listOfQuickDetails)
+                Column {
+                    TopBar()
+                    printUserList(listOfQuickDetails)
+                }
             }
             second(50.dp) {
 
@@ -100,6 +109,42 @@ fun main() = singleWindowApplication(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun TopBar() {
+    val imageModifier = Modifier
+        .height(240.dp)
+        .fillMaxWidth()
+        .clip(RoundedCornerShape(12.dp))
+    TopAppBar(
+        title = {
+            Text(
+                text = "Admin",
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                    fontStyle = FontStyle.Normal,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            )
+        },
+        actions = {
+            Image(
+                painter = painterResource("profile.png"),
+                contentDescription = "..profile.png",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.width(30.dp)
+            )
+            Image(
+                painter = painterResource("setting.png"),
+                contentDescription = "image",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.width(30.dp).padding(all = 8.dp).fillMaxWidth(),
+            )
+        },
+        backgroundColor = Color.White
+    )
+}
 
 @Composable
 fun cardForUser(user: UserQuickDetails) {
@@ -179,9 +224,8 @@ fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
     }
 
 
-
-
 }
+
 class ClickUser(user: UserQuickDetails) {
     var user by mutableStateOf(user)
 }
