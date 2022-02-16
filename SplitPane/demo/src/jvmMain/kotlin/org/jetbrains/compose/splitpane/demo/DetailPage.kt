@@ -46,12 +46,13 @@ lateinit var newMessageText: TextChange
 @Composable
 fun secondViewAlpha(user: UserQuickDetails) {
     userLocal = user;
-    newMessageText = remember { TextChange(user) }
-    secondView(newMessageText.newMessage)
+
+    secondView(user)
 }
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun secondView(user: UserQuickDetails) {
+
     val splitterState = rememberSplitPaneState()
     val hSplitterState = rememberSplitPaneState()
     VerticalSplitPane(splitPaneState = hSplitterState) {
@@ -145,8 +146,10 @@ fun MessageInput(
 ) {
     var inputValue by remember { mutableStateOf("") } // 2
 
-    fun sendMessage() { // 3
-        newMessageText.newMessage.listOfChats?.add(MessageModel(inputValue.toString(), true));
+    fun sendMessage() {
+        var oldList = newMessageText.newMessage// 3
+        oldList.add(MessageModel(inputValue.toString(), true))
+        newMessageText.newMessage=oldList
         inputValue = ""
     }
 
@@ -172,6 +175,6 @@ fun MessageInput(
     }
 }
 
-class TextChange(newMessage: UserQuickDetails) {
+class TextChange(newMessage: MutableList<MessageModel>) {
     var newMessage by mutableStateOf(newMessage)
 }

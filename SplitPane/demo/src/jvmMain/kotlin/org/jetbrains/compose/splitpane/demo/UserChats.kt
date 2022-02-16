@@ -12,6 +12,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
@@ -31,13 +32,13 @@ fun cardShapeFor(message: MessageModel): Shape {
 @Composable
 fun printUserChat(user: UserQuickDetails, modifier: Modifier) {
     // val context = LocalContext.current
-
+    newMessageText = remember { TextChange(user.listOfChats) }
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(user.listOfChats) { chat ->
+        items(newMessageText.newMessage) { chat ->
             MessageCard(chat,"Admin",user.user)
         }
     }
