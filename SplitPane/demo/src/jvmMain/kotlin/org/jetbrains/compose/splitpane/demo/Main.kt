@@ -67,9 +67,9 @@ val listOfLastMessages: List<String> = listOf("I'm in india", "I'm in Japan", "I
 val listOfImagees: List<String> = listOf(IMAGE, IMAGE, IMAGE, IMAGE)
 val listOfTimes: List<String> = listOf("Today, 10:30 AM", "Today, 10:40 AM", "Today, 11:30 AM", "Today, 10:20 AM")
 val samepleChat: List<MessageModel> = listOf(MessageModel("How Are You",false), MessageModel("How Are You",true), MessageModel("How Are You",false), MessageModel("How Are You",true))
-val samepleChat2: List<MessageModel> = listOf(MessageModel("How Are You",true), MessageModel("How Are You",false), MessageModel("How Are You",true), MessageModel("How Are You",false))
-val samepleChat3: List<MessageModel> = listOf(MessageModel("How Are You",false), MessageModel("How Are You",true), MessageModel("How Are You",false), MessageModel("How Are You",true))
-val samepleChat4: List<MessageModel> = listOf(MessageModel("How Are You",true), MessageModel("How Are You",false), MessageModel("How Are You",true), MessageModel("How Are You",false))
+val samepleChat2: List<MessageModel> = listOf(MessageModel("Hey",true), MessageModel("How Are You",false), MessageModel("How Are You",true), MessageModel("How Are You",false))
+val samepleChat3: List<MessageModel> = listOf(MessageModel("Hi",false), MessageModel("How Are You",true), MessageModel("How Are You",false), MessageModel("How Are You",true))
+val samepleChat4: List<MessageModel> = listOf(MessageModel("Compose",true), MessageModel("How Are You",false), MessageModel("How Are You",true), MessageModel("How Are You",false))
 val listOfChats = listOf(samepleChat, samepleChat2, samepleChat3, samepleChat4)
 var listOfQuickDetails: MutableList<UserQuickDetails> = mutableListOf()
 
@@ -82,7 +82,7 @@ fun main() = singleWindowApplication(
 
     for (i in 0..3) {
         var quickMessages =
-            UserQuickDetails(users[i], listOfLastMessages[i], listOfImagees[i], listOfTimes[i], listOfChats[i])
+            UserQuickDetails(users[i], listOfChats[i][0].msg, listOfImagees[i], listOfTimes[i], listOfChats[i])
         listOfQuickDetails.add(quickMessages)
     }
 
