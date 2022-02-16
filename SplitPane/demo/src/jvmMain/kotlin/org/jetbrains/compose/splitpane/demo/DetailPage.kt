@@ -38,7 +38,17 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.VerticalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
+import org.jetbrains.skiko.hostId
 
+var userLocal: UserQuickDetails? = null;
+lateinit var newMessageText: TextChange
+@OptIn(ExperimentalSplitPaneApi::class)
+@Composable
+fun secondViewAlpha(user: UserQuickDetails) {
+    userLocal = user;
+    newMessageText = remember { TextChange(user) }
+    secondView(newMessageText.newMessage)
+}
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun secondView(user: UserQuickDetails) {
@@ -52,7 +62,7 @@ fun secondView(user: UserQuickDetails) {
         }
         second(20.dp) {
             Column(Modifier.fillMaxSize()) {
-                printUserChat(user,modifier = Modifier.weight(1f))
+                printUserChat(user, modifier = Modifier.weight(1f))
                 MessageInput()
             }
         }
@@ -64,37 +74,30 @@ fun secondView(user: UserQuickDetails) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun messagesListTopBar(user: UserQuickDetails) {
-    val imageModifier = Modifier
-        .height(240.dp)
-        .fillMaxWidth()
-        .clip(RoundedCornerShape(12.dp))
-    TopAppBar(
-        title = {
-            Text(
-                text = user.user,
-                style = TextStyle(
-                    textAlign = TextAlign.Center,
-                    fontStyle = FontStyle.Normal,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
+    val imageModifier = Modifier.height(240.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp))
+    TopAppBar(title = {
+        Text(
+            text = user.user, style = TextStyle(
+                textAlign = TextAlign.Center,
+                fontStyle = FontStyle.Normal,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
             )
-        },
-        actions = {
-            Image(
-                painter = painterResource("profile.png"),
-                contentDescription = "..profile.png",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.width(30.dp)
-            )
-            Image(
-                painter = painterResource("menu.png"),
-                contentDescription = "image",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.width(30.dp).padding(all = 8.dp).fillMaxWidth(),
-            )
-        },
-        backgroundColor = Color.White
+        )
+    }, actions = {
+        Image(
+            painter = painterResource("profile.png"),
+            contentDescription = "..profile.png",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.width(30.dp)
+        )
+        Image(
+            painter = painterResource("menu.png"),
+            contentDescription = "image",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.width(30.dp).padding(all = 8.dp).fillMaxWidth(),
+        )
+    }, backgroundColor = Color.White
     )
 }
 
@@ -117,8 +120,7 @@ fun floatingButton(fabClick: () -> Unit) {
 fun SenderIcon() {
     Box(
 
-        modifier = Modifier.clip(CircleShape)
-            .size(30.dp)
+        modifier = Modifier.clip(CircleShape).size(30.dp)
     ) {
         Image(
             painter = painterResource("profile.png"),
@@ -132,14 +134,9 @@ fun SenderIcon() {
 @Composable
 fun Sender(sender: String, modifier: Modifier = Modifier) {
     Text(
-        text = sender,
-        style = TextStyle(
-            color = Color.Black,
-            fontSize = 18.sp
-        ),
-        modifier = modifier,
-        overflow = TextOverflow.Ellipsis,
-        maxLines = 1
+        text = sender, style = TextStyle(
+            color = Color.Black, fontSize = 18.sp
+        ), modifier = modifier, overflow = TextOverflow.Ellipsis, maxLines = 1
     )
 }
 
@@ -149,7 +146,7 @@ fun MessageInput(
     var inputValue by remember { mutableStateOf("") } // 2
 
     fun sendMessage() { // 3
-
+        newMessageText.newMessage.listOfChats?.add(MessageModel(inputValue.toString(), true));
         inputValue = ""
     }
 
@@ -158,7 +155,7 @@ fun MessageInput(
             // 4
             modifier = Modifier.weight(1f),
             value = inputValue,
-            onValueChange = { inputValue = it },
+            onValueChange = { inputValue = it.toString() },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions { sendMessage() },
         )
@@ -169,10 +166,12 @@ fun MessageInput(
             enabled = inputValue.isNotBlank(),
         ) {
             Icon( // 6
-                imageVector = Icons.Default.Send,
-                contentDescription = "Send"
+                imageVector = Icons.Default.Send, contentDescription = "Send"
             )
         }
     }
 }
 
+class TextChange(newMessage: UserQuickDetails) {
+    var newMessage by mutableStateOf(newMessage)
+}
