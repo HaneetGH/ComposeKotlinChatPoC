@@ -11,14 +11,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+lateinit var newMessageText: TextChange
+lateinit var notesList: SnapshotStateList<MessageModel>
 
 @Composable
 fun cardShapeFor(message: MessageModel): Shape {
@@ -32,20 +35,25 @@ fun cardShapeFor(message: MessageModel): Shape {
 @Composable
 fun printUserChat(user: UserQuickDetails, modifier: Modifier) {
     // val context = LocalContext.current
-    newMessageText = remember { TextChange(user.listOfChats) }
+    notesList = remember {
+        mutableStateListOf()
+    }
+    notesList.clear()
+    notesList.addAll(user.listOfChats)
+    newMessageText = remember { TextChange(user) }
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(user.listOfChats) { chat ->
-            MessageCard(chat,"Admin",user.user)
+        items(notesList) { chat ->
+            MessageCard(chat, "Admin", user.user)
         }
     }
 }
 
 @Composable
-fun MessageCard(messageItem: MessageModel,myName:String,frndName:String) { // 1
+fun MessageCard(messageItem: MessageModel, myName: String, frndName: String) { // 1
     Column(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
         horizontalAlignment = when { // 2
@@ -70,7 +78,7 @@ fun MessageCard(messageItem: MessageModel,myName:String,frndName:String) { // 1
                 },
             )
         }
-        var name =if(messageItem.isMine) myName else frndName
+        var name = if (messageItem.isMine) myName else frndName
         Text(
             // 4
 
@@ -78,4 +86,8 @@ fun MessageCard(messageItem: MessageModel,myName:String,frndName:String) { // 1
             fontSize = 12.sp,
         )
     }
+}
+
+class TextChange(newMessage: UserQuickDetails) {
+    var newMessage by mutableStateOf(newMessage)
 }

@@ -41,7 +41,7 @@ import org.jetbrains.compose.splitpane.rememberSplitPaneState
 import org.jetbrains.skiko.hostId
 
 var userLocal: UserQuickDetails? = null;
-lateinit var newMessageText: TextChange
+
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun secondViewAlpha(user: UserQuickDetails) {
@@ -147,9 +147,14 @@ fun MessageInput(
     var inputValue by remember { mutableStateOf("") } // 2
 
     fun sendMessage() {
-        var oldList = newMessageText.newMessage// 3
+        var oldList = newMessageText.newMessage.listOfChats// 3
         oldList.add(MessageModel(inputValue.toString(), true))
-        newMessageText.newMessage=oldList
+
+
+        var insertCopy = newMessageText.newMessage.copy(listOfChats = oldList)// 3
+        newMessageText.newMessage=insertCopy
+        clk.user=insertCopy
+        notesList.add(MessageModel(inputValue.toString(), true))
         inputValue = ""
     }
 
@@ -175,6 +180,3 @@ fun MessageInput(
     }
 }
 
-class TextChange(newMessage: MutableList<MessageModel>) {
-    var newMessage by mutableStateOf(newMessage)
-}
