@@ -147,13 +147,6 @@ fun MessageInput(
     var inputValue by remember { mutableStateOf("") } // 2
 
     fun sendMessage() {
-        var oldList = newMessageText.newMessage.listOfChats// 3
-        oldList.add(MessageModel(inputValue.toString(), true))
-
-
-        var insertCopy = newMessageText.newMessage.copy(listOfChats = oldList)// 3
-        newMessageText.newMessage=insertCopy
-        clk.user=insertCopy
         notesList.add(MessageModel(inputValue.toString(), true))
         inputValue = ""
     }

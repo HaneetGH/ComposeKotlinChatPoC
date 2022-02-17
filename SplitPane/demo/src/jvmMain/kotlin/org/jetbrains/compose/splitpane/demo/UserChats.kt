@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-lateinit var newMessageText: TextChange
+
 lateinit var notesList: SnapshotStateList<MessageModel>
 
 @Composable
@@ -40,7 +40,7 @@ fun printUserChat(user: UserQuickDetails, modifier: Modifier) {
     }
     notesList.clear()
     notesList.addAll(user.listOfChats)
-    newMessageText = remember { TextChange(user) }
+
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -86,8 +86,4 @@ fun MessageCard(messageItem: MessageModel, myName: String, frndName: String) { /
             fontSize = 12.sp,
         )
     }
-}
-
-class TextChange(newMessage: UserQuickDetails) {
-    var newMessage by mutableStateOf(newMessage)
 }

@@ -121,7 +121,7 @@ fun main() = singleWindowApplication(
             }
             second(50.dp) {
 
-                clk = remember { ClickUser(UserQuickDetails("", "", "", "", mutableListOf())) }
+                clk = remember { ClickUser(listOfQuickDetails[0]) }
                 secondViewAlpha(clk.user)
 
             }
@@ -215,7 +215,7 @@ fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
             Row(
                 modifier = Modifier.padding(8.dp).requiredSize(300.dp, 100.dp).clickable(onClick = {
                     clk.user = user
-                    newMessageText.newMessage = user
+
                 }).clip(RoundedCornerShape(8.dp)), verticalAlignment = Alignment.CenterVertically
             ) {
                 cardForUser(user)
