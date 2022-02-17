@@ -38,7 +38,7 @@ fun printUserChat(user: UserQuickDetails, modifier: Modifier) {
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(newMessageText.newMessage) { chat ->
+        items(user.listOfChats) { chat ->
             MessageCard(chat,"Admin",user.user)
         }
     }

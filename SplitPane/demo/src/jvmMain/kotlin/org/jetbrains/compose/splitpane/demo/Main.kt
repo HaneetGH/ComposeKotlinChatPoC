@@ -67,28 +67,28 @@ val listOfLastMessages: List<String> = listOf("I'm in india", "I'm in Japan", "I
 val listOfImagees: List<String> = listOf(IMAGE, IMAGE, IMAGE, IMAGE)
 val listOfTimes: List<String> = listOf("Today, 10:30 AM", "Today, 10:40 AM", "Today, 11:30 AM", "Today, 10:20 AM")
 val samepleChat = mutableListOf(
-    MessageModel("How Are You", false),
-    MessageModel("How Are You", true),
-    MessageModel("How Are You", false),
+    MessageModel("How Are ", false),
+    MessageModel("How  You", true),
+    MessageModel("How Are ", false),
     MessageModel("How Are You", true)
 )
 val samepleChat2 = mutableListOf(
     MessageModel("Hey", true),
-    MessageModel("How Are You", false),
-    MessageModel("How Are You", true),
-    MessageModel("How Are You", false)
+    MessageModel(" Are You", false),
+    MessageModel("How  You", true),
+    MessageModel("How Are ", false)
 )
 val samepleChat3 = mutableListOf(
     MessageModel("Hi", false),
-    MessageModel("How Are You", true),
-    MessageModel("How Are You", false),
-    MessageModel("How Are You", true)
+    MessageModel("How Are ", true),
+    MessageModel("How You", false),
+    MessageModel(" Are You", true)
 )
 val samepleChat4 = mutableListOf(
     MessageModel("Compose", true),
     MessageModel("How Are You", false),
-    MessageModel("How Are You", true),
-    MessageModel("How Are You", false)
+    MessageModel("How  You", true),
+    MessageModel("How Are ", false)
 )
 val listOfChats = mutableListOf(samepleChat, samepleChat2, samepleChat3, samepleChat4)
 var listOfQuickDetails: MutableList<UserQuickDetails> = mutableListOf()
@@ -121,7 +121,7 @@ fun main() = singleWindowApplication(
             }
             second(50.dp) {
 
-                clk = remember { ClickUser(listOfQuickDetails[0]) }
+                clk = remember { ClickUser(UserQuickDetails("","","","", mutableListOf())) }
                 secondViewAlpha(clk.user)
 
             }
