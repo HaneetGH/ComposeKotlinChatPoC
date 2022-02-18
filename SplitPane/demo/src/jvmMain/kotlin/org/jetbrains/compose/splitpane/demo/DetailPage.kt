@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.layout.ContentScale
@@ -57,12 +58,12 @@ fun secondView(user: UserQuickDetails) {
     val hSplitterState = rememberSplitPaneState()
     VerticalSplitPane(splitPaneState = hSplitterState) {
         first(50.dp) {
-            Box(Modifier.background(Color.Black).fillMaxSize()) {
+            Box {
                 messagesListTopBar(user)
             }
         }
         second(20.dp) {
-            Column(Modifier.fillMaxSize()) {
+            Column(Modifier.background(Color(0XFFece5dd)).fillMaxSize()) {
                 printUserChat(user, modifier = Modifier.weight(1f))
                 MessageInput()
             }
@@ -75,30 +76,36 @@ fun secondView(user: UserQuickDetails) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun messagesListTopBar(user: UserQuickDetails) {
-    val imageModifier = Modifier.height(240.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp))
-    TopAppBar(title = {
-        Text(
-            text = user.user, style = TextStyle(
-                textAlign = TextAlign.Center,
-                fontStyle = FontStyle.Normal,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+    val imageModifier = Modifier.height(250.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp))
+    TopAppBar(backgroundColor = Color(0XFF455A64), title = {
+        Row(
+            ) {
+            Image(
+                painter = painterResource("profile.png"),
+                contentDescription = "..profile.png",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.width(30.dp)
             )
-        )
+        Column(
+            modifier = Modifier.padding(start = 8.dp)
+
+            ) {
+            Text(
+                text = user.user, style = MaterialTheme.typography.subtitle2, color = Color.White, fontSize = 16.sp
+            )
+            Text(
+                text = user.lastMstTime, style = MaterialTheme.typography.subtitle2, color = Color(0xFFebe8e8), fontSize = 12.sp
+            )
+        }}
     }, actions = {
+
         Image(
-            painter = painterResource("profile.png"),
-            contentDescription = "..profile.png",
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.width(30.dp)
-        )
-        Image(
-            painter = painterResource("menu.png"),
+            painter = painterResource("phone-call.png"),
             contentDescription = "image",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.width(30.dp).padding(all = 8.dp).fillMaxWidth(),
+            modifier = Modifier.width(30.dp).padding(end = 8.dp).fillMaxWidth(),
         )
-    }, backgroundColor = Color.White
+    }
     )
 }
 

@@ -16,6 +16,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,7 +48,7 @@ fun printUserChat(user: UserQuickDetails, modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(notesList) { chat ->
-            MessageCard(chat, "Admin", user.user)
+            MessageCard(chat, "", user.user)
         }
     }
 }
@@ -65,16 +66,16 @@ fun MessageCard(messageItem: MessageModel, myName: String, frndName: String) { /
             modifier = Modifier.widthIn(max = 340.dp),
             shape = cardShapeFor(messageItem), // 3
             backgroundColor = when {
-                messageItem.isMine -> MaterialTheme.colors.primary
-                else -> MaterialTheme.colors.secondary
+                messageItem.isMine -> Color(0XFF128c7e)
+                else -> Color(0XFF2f3e45)
             },
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
                 text = messageItem.msg,
                 color = when {
-                    messageItem.isMine -> MaterialTheme.colors.onPrimary
-                    else -> MaterialTheme.colors.onSecondary
+                    messageItem.isMine -> Color.White
+                    else -> Color.White
                 },
             )
         }

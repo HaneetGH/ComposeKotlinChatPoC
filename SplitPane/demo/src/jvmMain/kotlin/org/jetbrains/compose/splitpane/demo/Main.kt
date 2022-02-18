@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -113,7 +110,7 @@ fun main() = singleWindowApplication(
         HorizontalSplitPane(
             splitPaneState = splitterState
         ) {
-            first(330.dp) {
+            first(300.dp) {
                 Column {
                     TopBar()
                     printUserList(listOfQuickDetails)
@@ -135,67 +132,76 @@ fun main() = singleWindowApplication(
 fun TopBar() {
     val imageModifier = Modifier.height(240.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp))
     TopAppBar(title = {
-        Text(
-            text = "Admin", style = TextStyle(
-                textAlign = TextAlign.Center,
-                fontStyle = FontStyle.Normal,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            )
-        )
-    }, actions = {
         Image(
             painter = painterResource("profile.png"),
             contentDescription = "..profile.png",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.width(30.dp)
         )
+    }, actions = {
         Image(
             painter = painterResource("setting.png"),
             contentDescription = "image",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier.width(30.dp).padding(all = 8.dp).fillMaxWidth(),
+            modifier = Modifier.width(30.dp).padding(all = 5.dp).fillMaxWidth(),
         )
-    }, backgroundColor = Color.White
+    }, backgroundColor = Color(0XFF455A64)
     )
 }
 
 @Composable
 fun cardForUser(user: UserQuickDetails) {
     val density = LocalDensity.current
-    Card(
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.requiredSize(300.dp, 100.dp).padding(all = 8.dp).shadow(375.dp)
-    ) {
-        Row {
 
-            AsyncImage(
+        Box(
+            modifier = Modifier.background(Color.Transparent)
+        ) { Column {
+            Row(
 
-                load = {
-                    loadSvgPainter(
-                        user.imageUrl, density = density
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                /*AsyncImage(
+
+                 load = {
+                     loadSvgPainter(
+                         user.imageUrl, density = density
+                     )
+                 },
+                 painterFor = { it },
+                 contentDescription = "Idea logo",
+                 contentScale = ContentScale.FillWidth,
+                 modifier = Modifier.width(50.dp)
+             )*/
+                Image(
+                    painter = painterResource("profile.png"),
+                    contentDescription = "..profile.png",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.width(50.dp)
+                )
+                Column(
+                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
+
+                    ) {
+                    Text(
+                        text = user.user, style = MaterialTheme.typography.subtitle2, color = Color.White, fontSize = 16.sp
                     )
-                },
-                painterFor = { it },
-                contentDescription = "Idea logo",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.width(50.dp)
-            )
-            Column(
-                modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
+                    Box(modifier = Modifier.padding(top = 3.dp)){
+                    Text(
 
-                ) {
-                Text(
-                    text = user.user, style = MaterialTheme.typography.subtitle2
-                )
-                Text(
-                    text = user.userLastMessage, style = MaterialTheme.typography.subtitle2
-                )
+                        text = user.userLastMessage, style = MaterialTheme.typography.subtitle2, color = Color(0xFFebe8e8), fontSize = 12.sp
+                    )}
+
+                }
+
             }
-            Text(
-                text = user.lastMstTime, modifier = Modifier.padding(5.dp), color = Color.Black, fontSize = 30.sp
-            )
+            Divider(color = Color.White, thickness = 1.dp, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
         }
+
+
     }
 }
 
@@ -207,16 +213,16 @@ fun loadSvgPainter(url: String, density: Density): Painter =
 fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
     // val context = LocalContext.current
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.fillMaxSize(),
+
+        modifier = Modifier.fillMaxSize().background(Color(0XFF2f3e45)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(listOfUsers) { user ->
             Row(
-                modifier = Modifier.padding(8.dp).requiredSize(300.dp, 100.dp).clickable(onClick = {
+                modifier = Modifier.requiredSize(300.dp, 80.dp).clickable(onClick = {
                     clk.user = user
 
-                }).clip(RoundedCornerShape(8.dp)), verticalAlignment = Alignment.CenterVertically
+                }), verticalAlignment = Alignment.CenterVertically
             ) {
                 cardForUser(user)
 
