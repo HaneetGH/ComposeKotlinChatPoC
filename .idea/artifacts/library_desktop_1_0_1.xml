@@ -1,6 +1,8 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="library-desktop-1.0.1">
     <output-path>$PROJECT_DIR$/SplitPane/library/build/libs</output-path>
-    <root id="archive" name="library-desktop-1.0.1.jar" />
+    <root id="archive" name="library-desktop-1.0.1.jar">
+      <element id="module-output" name="ComposeKotlinChatPoC.SplitPane.library.desktopMain" />
+    </root>
   </artifact>
 </component>

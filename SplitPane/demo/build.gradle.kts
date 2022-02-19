@@ -28,6 +28,10 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "org.jetbrains.compose.splitpane.demo.MainKt"
+        nativeDistributions {
+            targetFormats(org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg, org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi, org.jetbrains.compose.desktop.application.dsl.TargetFormat.Exe)
+        }
+
     }
 }
 
