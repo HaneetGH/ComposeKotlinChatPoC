@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -28,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 
 
@@ -113,6 +118,7 @@ fun main() = singleWindowApplication(
             first(300.dp) {
                 Column {
                     TopBar()
+                    SearchInput()
                     printUserList(listOfQuickDetails)
                 }
             }
@@ -124,6 +130,32 @@ fun main() = singleWindowApplication(
             }
 
         }
+    }
+}
+
+@Composable
+fun SearchInput(
+) {
+    var inputValue by remember { mutableStateOf("") } // 2
+
+    fun sendMessage() {
+        notesList.add(MessageModel(inputValue.toString(), true))
+        inputValue = ""
+    }
+
+    Column(modifier = Modifier.background(Color(0XFF2f3e45)).padding(5.dp).clip(RoundedCornerShape(20.dp))) {
+
+        TextField(
+            // 4
+            textStyle = TextStyle(color = Color.White),
+            label = { Text("Search") },
+            modifier = Modifier.background(Color.Gray).height(40.dp).clip(RoundedCornerShape(10.dp)),
+            value = inputValue,
+
+            onValueChange = { inputValue = it.toString() },
+            keyboardActions = KeyboardActions { sendMessage() },
+        )
+
     }
 }
 
@@ -153,15 +185,13 @@ fun TopBar() {
 fun cardForUser(user: UserQuickDetails) {
     val density = LocalDensity.current
 
-        Box(
-            modifier = Modifier.background(Color.Transparent)
-        ) { Column {
+    Box(
+        modifier = Modifier.background(Color.Transparent)
+    ) {
+        Column {
             Row(
 
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier.padding(10.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
 
                 /*AsyncImage(
@@ -187,13 +217,20 @@ fun cardForUser(user: UserQuickDetails) {
 
                     ) {
                     Text(
-                        text = user.user, style = MaterialTheme.typography.subtitle2, color = Color.White, fontSize = 16.sp
+                        text = user.user,
+                        style = MaterialTheme.typography.subtitle2,
+                        color = Color.White,
+                        fontSize = 16.sp
                     )
-                    Box(modifier = Modifier.padding(top = 3.dp)){
-                    Text(
+                    Box(modifier = Modifier.padding(top = 3.dp)) {
+                        Text(
 
-                        text = user.userLastMessage, style = MaterialTheme.typography.subtitle2, color = Color(0xFFebe8e8), fontSize = 12.sp
-                    )}
+                            text = user.userLastMessage,
+                            style = MaterialTheme.typography.subtitle2,
+                            color = Color(0xFFebe8e8),
+                            fontSize = 12.sp
+                        )
+                    }
 
                 }
 

@@ -105,6 +105,11 @@ fun messagesListTopBar(user: UserQuickDetails) {
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.width(30.dp).padding(end = 8.dp).fillMaxWidth(),
         )
+        Image (painter = painterResource("zoom.png"),
+        contentDescription = "image",
+        contentScale = ContentScale.FillWidth,
+        modifier = Modifier.width(50.dp).padding(start = 8.dp, end = 8.dp).fillMaxWidth(),
+        )
     }
     )
 }
