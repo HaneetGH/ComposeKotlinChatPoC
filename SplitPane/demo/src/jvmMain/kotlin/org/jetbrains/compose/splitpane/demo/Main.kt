@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -49,6 +50,7 @@ import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.VerticalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
 import org.jetbrains.skia.impl.Log
+import org.w3c.dom.Text
 import java.awt.Cursor
 import java.io.IOException
 import java.net.URL
@@ -96,6 +98,7 @@ val listOfChats = mutableListOf(samepleChat, samepleChat2, samepleChat3, sameple
 var listOfQuickDetails: MutableList<UserQuickDetails> = mutableListOf()
 
 lateinit var clk: ClickUser
+lateinit var searchUser: SearchUser
 
 @OptIn(ExperimentalSplitPaneApi::class)
 fun main() = singleWindowApplication(
@@ -108,7 +111,7 @@ fun main() = singleWindowApplication(
         )
         listOfQuickDetails.add(quickMessages)
     }
-
+    searchUser = remember { SearchUser("") }
     MaterialTheme {
         val splitterState = rememberSplitPaneState()
         val hSplitterState = rememberSplitPaneState()
@@ -119,7 +122,7 @@ fun main() = singleWindowApplication(
                 Column {
                     TopBar()
                     SearchInput()
-                    printUserList(listOfQuickDetails)
+                    printUserList(listOfQuickDetails.filter { userQuickDetails ->  (userQuickDetails.user.lowercase()).contains(searchUser.searchUser.lowercase())}.toMutableList())
                 }
             }
             second(50.dp) {
@@ -136,24 +139,33 @@ fun main() = singleWindowApplication(
 @Composable
 fun SearchInput(
 ) {
-    var inputValue by remember { mutableStateOf("") } // 2
 
-    fun sendMessage() {
-        notesList.add(MessageModel(inputValue.toString(), true))
-        inputValue = ""
-    }
 
-    Column(modifier = Modifier.background(Color(0XFF2f3e45)).padding(5.dp).clip(RoundedCornerShape(20.dp))) {
 
-        TextField(
+
+    Row (verticalAlignment = Alignment.CenterVertically,modifier = Modifier.background(Color(0XFF2f3e45)).padding(5.dp).clip(RoundedCornerShape(20.dp))) {
+
+        BasicTextField(
             // 4
-            textStyle = TextStyle(color = Color.White),
-            label = { Text("Search") },
-            modifier = Modifier.background(Color.Gray).height(40.dp).clip(RoundedCornerShape(10.dp)),
-            value = inputValue,
 
-            onValueChange = { inputValue = it.toString() },
-            keyboardActions = KeyboardActions { sendMessage() },
+
+            modifier = Modifier.background(
+                Color.Gray,
+                MaterialTheme.shapes.small,
+            ).cursorForHorizontalResize().padding(start = 15.dp, top = 5.dp)
+                .fillMaxWidth().height(30.dp).clip(RoundedCornerShape(10.dp)),
+            value = searchUser.searchUser,
+            singleLine = true,
+            cursorBrush = SolidColor(Color.Gray),
+            textStyle = LocalTextStyle.current.copy(
+                color = Color.White,
+                fontSize = 15.sp,
+                textAlign = TextAlign.Start,
+
+            ),
+            onValueChange = { searchUser.searchUser = it.toString() },
+
+
         )
 
     }
@@ -186,12 +198,12 @@ fun cardForUser(user: UserQuickDetails) {
     val density = LocalDensity.current
 
     Box(
-        modifier = Modifier.background(Color.Transparent)
+        modifier = Modifier.background(Color.Transparent).cursorForHorizontalResize()
     ) {
         Column {
             Row(
 
-                modifier = Modifier.padding(10.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                modifier = Modifier.padding(10.dp).fillMaxWidth().cursorForHorizontalResize(), horizontalArrangement = Arrangement.Center
             ) {
 
                 /*AsyncImage(
@@ -213,7 +225,7 @@ fun cardForUser(user: UserQuickDetails) {
                     modifier = Modifier.width(50.dp)
                 )
                 Column(
-                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
+                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth().cursorForHorizontalResize(),
 
                     ) {
                     Text(
@@ -222,7 +234,7 @@ fun cardForUser(user: UserQuickDetails) {
                         color = Color.White,
                         fontSize = 16.sp
                     )
-                    Box(modifier = Modifier.padding(top = 3.dp)) {
+                    Box(modifier = Modifier.padding(top = 3.dp).cursorForHorizontalResize()) {
                         Text(
 
                             text = user.userLastMessage,
@@ -235,7 +247,7 @@ fun cardForUser(user: UserQuickDetails) {
                 }
 
             }
-            Divider(color = Color.White, thickness = 1.dp, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
+            Divider(color = Color.White, thickness = 1.dp, modifier = Modifier.padding(start = 8.dp, end = 8.dp).cursorForHorizontalResize())
         }
 
 
@@ -251,12 +263,12 @@ fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
     // val context = LocalContext.current
     LazyColumn(
 
-        modifier = Modifier.fillMaxSize().background(Color(0XFF2f3e45)),
+        modifier = Modifier.fillMaxSize().background(Color(0XFF2f3e45)).cursorForHorizontalResize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(listOfUsers) { user ->
             Row(
-                modifier = Modifier.requiredSize(300.dp, 80.dp).clickable(onClick = {
+                modifier = Modifier.requiredSize(300.dp, 80.dp).cursorForHorizontalResize().clickable(onClick = {
                     clk.user = user
 
                 }), verticalAlignment = Alignment.CenterVertically
@@ -272,4 +284,8 @@ fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
 
 class ClickUser(user: UserQuickDetails) {
     var user by mutableStateOf(user)
+}
+
+class SearchUser(user: String) {
+    var searchUser by mutableStateOf(user)
 }
