@@ -1,5 +1,6 @@
 package org.jetbrains.compose.splitpane.demo
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
