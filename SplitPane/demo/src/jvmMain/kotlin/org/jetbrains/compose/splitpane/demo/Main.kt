@@ -160,7 +160,7 @@ fun SearchInput(
                 textAlign = TextAlign.Start,
 
             ),
-            onValueChange = { searchUser.searchUser = it.toString() },
+            onValueChange = { searchUser.searchUser = it },
 
 
         )
