@@ -185,3 +185,7 @@ fun MessageInput(
     }
 }
 
+class SearchChat(user: String) {
+    var searchChat by mutableStateOf(user)
+}
+

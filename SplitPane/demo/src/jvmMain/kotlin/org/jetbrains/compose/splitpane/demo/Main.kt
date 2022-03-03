@@ -140,10 +140,6 @@ fun main() = singleWindowApplication(
 @Composable
 fun SearchInput(
 ) {
-
-
-
-
     Row (verticalAlignment = Alignment.CenterVertically,modifier = Modifier.background(Color(0XFF2f3e45)).padding(5.dp).clip(RoundedCornerShape(20.dp))) {
 
         BasicTextField(
