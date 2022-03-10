@@ -18,6 +18,8 @@ Compose Multiplatform IDEA plugin can simplify compose development by adding sup
 Update the wizard plugin
 
 The Compose plugin version used in the wizard above may be not the last. Update the version of the plugin to the latest available by editing the build.gradle.kts file, finding and updating the version information as shown below. For the latest versions, see the latest versions site and the Kotlin site.
+
+
 ```
 plugins {
 kotlin("jvm") version "1.6.10"
