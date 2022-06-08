@@ -259,7 +259,6 @@ fun loadSvgPainter(url: String, density: Density): Painter =
 fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
     // val context = LocalContext.current
     LazyColumn(
-
         modifier = Modifier.fillMaxSize().background(Color(0XFF2f3e45)).cursorForHorizontalResize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
