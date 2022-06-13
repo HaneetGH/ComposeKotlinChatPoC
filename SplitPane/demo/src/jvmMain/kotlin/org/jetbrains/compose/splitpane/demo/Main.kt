@@ -106,9 +106,9 @@ fun main() = singleWindowApplication(
             for (i in 0 until result!!.results.size) {
                 var quickMessages = UserQuickDetails(
                     result!!.results[i].name.first,
-                    result!!.results[i].location.city,
-                    result!!.results[i].picture.thumbnail,
-                    result!!.results[i].nat,
+                    result!!.results[i].name.first,
+                    result!!.results[i].name.first,
+                    result!!.results[i].name.first,
                     listOfChats[0]
                 )
                 listOfQuickDetails.add(quickMessages)

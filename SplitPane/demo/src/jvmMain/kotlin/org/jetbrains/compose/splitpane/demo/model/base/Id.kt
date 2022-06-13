@@ -16,5 +16,5 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 data class Id (
 
 	@SerialName("name") val name : String,
-	@SerialName("value") val value : Int
+	@SerialName("value") val value : String
 )

@@ -16,5 +16,5 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 data class Dob (
 
 	@SerialName("date") val date : String,
-	@SerialName("age") val age : Int
+	@SerialName("age") val age : Long
 )

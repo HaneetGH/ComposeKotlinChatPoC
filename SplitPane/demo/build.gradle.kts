@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.5.10"
     id("org.jetbrains.compose")
 }
 
@@ -20,11 +21,10 @@ kotlin {
                 implementation(project(":SplitPane:library"))
                 implementation("io.coil-kt:coil-compose:1.4.0")
                 implementation("androidx.compose.runtime:runtime-livedata:1.1.0")
-                implementation("io.ktor:ktor-client-core:2.0.2")
-                implementation("io.ktor:ktor-client-cio:2.0.2")
-                implementation("io.ktor:ktor-client-serialization:2.0.2")
+                implementation("io.ktor:ktor-client-core:1.6.4")
+                implementation("io.ktor:ktor-client-cio:1.6.4")
+                implementation("io.ktor:ktor-client-serialization:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
-                implementation("com.google.code.gson:gson:2.9.0")
             }
         }
     }
