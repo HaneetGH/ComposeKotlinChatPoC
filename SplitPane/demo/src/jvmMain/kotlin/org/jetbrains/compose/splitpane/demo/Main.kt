@@ -96,22 +96,23 @@ var result: ResponseModel? = null
 fun main() = singleWindowApplication(
     title = "SplitPane demo"
 ) {
-    var jobone = GlobalScope.launch {
+    var jobone = CoroutineScope(Dispatchers.IO).launch {
 
         result = repository.getRandomUser()
 
     }
-    jobone.invokeOnCompletion {
-        if (it!!.message.toString() == "") {
-            for (i in 0 until result!!.results.size) {
+    jobone.invokeOnCompletion { it ->
+        if (it==null) {
+            result!!.results.forEach { it ->
                 var quickMessages = UserQuickDetails(
-                    result!!.results[i].name.first,
-                    result!!.results[i].name.first,
-                    result!!.results[i].name.first,
-                    result!!.results[i].name.first,
+                    it.name.first,
+                    it.name.first,
+                    it.name.first,
+                    it.name.first,
                     listOfChats[0]
                 )
                 listOfQuickDetails.add(quickMessages)
+
             }
             fetchData.fetchData = listOfQuickDetails
         }
