@@ -9,20 +9,22 @@ plugins {
 
 kotlin {
     jvm {}
+    repositories {
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
     sourceSets {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":SplitPane:library"))
                 implementation("io.coil-kt:coil-compose:1.4.0")
-                implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-                implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-                implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
                 implementation("androidx.compose.runtime:runtime-livedata:1.1.0")
-                implementation("io.ktor:ktor-client-core:1.6.4")
-                implementation("io.ktor:ktor-client-cio:1.6.4")
-                implementation("io.ktor:ktor-client-serialization:1.6.4")
+                implementation("io.ktor:ktor-client-core:2.0.2")
+                implementation("io.ktor:ktor-client-cio:2.0.2")
+                implementation("io.ktor:ktor-client-serialization:2.0.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                implementation("com.google.code.gson:gson:2.9.0")
             }
         }
     }
