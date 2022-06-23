@@ -1,13 +1,11 @@
 import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version "1.5.10"
     id("org.jetbrains.compose")
 }
-
 kotlin {
     jvm {}
     repositories {
