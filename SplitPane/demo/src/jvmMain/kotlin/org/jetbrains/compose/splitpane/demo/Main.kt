@@ -1,6 +1,6 @@
 package org.jetbrains.compose.splitpane.demo
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
+import ResponseModel
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
@@ -10,19 +10,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -31,10 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 
 
@@ -43,17 +33,15 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.singleWindowApplication
+import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
-import org.jetbrains.compose.splitpane.VerticalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
-import org.jetbrains.skia.impl.Log
-import org.w3c.dom.Text
 import java.awt.Cursor
-import java.io.IOException
 import java.net.URL
 
 
@@ -97,22 +85,46 @@ val samepleChat4 = mutableListOf(
 )
 val listOfChats = mutableListOf(samepleChat, samepleChat2, samepleChat3, samepleChat4)
 var listOfQuickDetails: MutableList<UserQuickDetails> = mutableListOf()
-
+var listOfQuickDetailsStart: MutableList<UserQuickDetails> = mutableListOf()
 lateinit var clk: ClickUser
 lateinit var searchUser: SearchUser
+lateinit var fetchData: FetchData
+val repository = Repository()
+var result: ResponseModel? = null
 
 @OptIn(ExperimentalSplitPaneApi::class)
 fun main() = singleWindowApplication(
     title = "SplitPane demo"
 ) {
+    var jobone = CoroutineScope(Dispatchers.IO).launch {
 
+        result = repository.getRandomUser()
+
+    }
+    jobone.invokeOnCompletion { it ->
+        if (it==null) {
+            result!!.results.forEach { it ->
+                var quickMessages = UserQuickDetails(
+                    it.name.first,
+                    it.name.first,
+                    it.name.first,
+                    it.name.first,
+                    listOfChats[0]
+                )
+                listOfQuickDetails.add(quickMessages)
+
+            }
+            fetchData.fetchData = listOfQuickDetails
+        }
+    }
     for (i in 0..3) {
         var quickMessages = UserQuickDetails(
             users[i], listOfChats[i][0].msg, listOfImagees[i], listOfTimes[i], listOfChats[i]
         )
-        listOfQuickDetails.add(quickMessages)
+        listOfQuickDetailsStart.add(quickMessages)
     }
     searchUser = remember { SearchUser("") }
+    fetchData = remember { FetchData(listOfQuickDetailsStart) }
     MaterialTheme {
         val splitterState = rememberSplitPaneState()
         val hSplitterState = rememberSplitPaneState()
@@ -123,12 +135,16 @@ fun main() = singleWindowApplication(
                 Column {
                     TopBar()
                     SearchInput()
-                    printUserList(listOfQuickDetails.filter { userQuickDetails ->  (userQuickDetails.user.lowercase()).contains(searchUser.searchUser.lowercase())}.toMutableList())
+                    printUserList(fetchData.fetchData.filter { userQuickDetails ->
+                        (userQuickDetails.user.lowercase()).contains(
+                            searchUser.searchUser.lowercase()
+                        )
+                    }.toMutableList())
                 }
             }
             second(50.dp) {
 
-                clk = remember { ClickUser(listOfQuickDetails[0]) }
+                clk = remember { ClickUser(fetchData.fetchData[0]) }
                 secondViewAlpha(clk.user)
 
             }
@@ -140,7 +156,10 @@ fun main() = singleWindowApplication(
 @Composable
 fun SearchInput(
 ) {
-    Row (verticalAlignment = Alignment.CenterVertically,modifier = Modifier.background(Color(0XFF2f3e45)).padding(5.dp).clip(RoundedCornerShape(20.dp))) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.background(Color(0XFF2f3e45)).padding(5.dp).clip(RoundedCornerShape(20.dp))
+    ) {
 
         BasicTextField(
             // 4
@@ -149,8 +168,8 @@ fun SearchInput(
             modifier = Modifier.background(
                 Color.Gray,
                 MaterialTheme.shapes.small,
-            ).cursorForHorizontalResize().padding(start = 15.dp, top = 5.dp)
-                .fillMaxWidth().height(30.dp).clip(RoundedCornerShape(10.dp)),
+            ).cursorForHorizontalResize().padding(start = 15.dp, top = 5.dp).fillMaxWidth().height(30.dp)
+                .clip(RoundedCornerShape(10.dp)),
             value = searchUser.searchUser,
             singleLine = true,
             cursorBrush = SolidColor(Color.Gray),
@@ -159,11 +178,11 @@ fun SearchInput(
                 fontSize = 15.sp,
                 textAlign = TextAlign.Start,
 
-            ),
+                ),
             onValueChange = { searchUser.searchUser = it },
 
 
-        )
+            )
 
     }
 }
@@ -200,7 +219,8 @@ fun cardForUser(user: UserQuickDetails) {
         Column {
             Row(
 
-                modifier = Modifier.padding(10.dp).fillMaxWidth().cursorForHorizontalResize(), horizontalArrangement = Arrangement.Center
+                modifier = Modifier.padding(10.dp).fillMaxWidth().cursorForHorizontalResize(),
+                horizontalArrangement = Arrangement.Center
             ) {
 
                 /*AsyncImage(
@@ -244,7 +264,11 @@ fun cardForUser(user: UserQuickDetails) {
                 }
 
             }
-            Divider(color = Color.White, thickness = 1.dp, modifier = Modifier.padding(start = 8.dp, end = 8.dp).cursorForHorizontalResize())
+            Divider(
+                color = Color.White,
+                thickness = 1.dp,
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp).cursorForHorizontalResize()
+            )
         }
 
 
@@ -259,7 +283,6 @@ fun loadSvgPainter(url: String, density: Density): Painter =
 fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
     // val context = LocalContext.current
     LazyColumn(
-
         modifier = Modifier.fillMaxSize().background(Color(0XFF2f3e45)).cursorForHorizontalResize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -285,4 +308,8 @@ class ClickUser(user: UserQuickDetails) {
 
 class SearchUser(user: String) {
     var searchUser by mutableStateOf(user)
+}
+
+class FetchData(user: MutableList<UserQuickDetails>) {
+    var fetchData by mutableStateOf(user)
 }
