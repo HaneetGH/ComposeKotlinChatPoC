@@ -17,6 +17,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":SplitPane:library"))
+                implementation(project(":SplitPane:client"))
                 implementation("io.coil-kt:coil-compose:1.4.0")
                 implementation("androidx.compose.runtime:runtime-livedata:1.1.0")
                 implementation("io.ktor:ktor-client-core:1.6.4")

@@ -13,5 +13,7 @@ pluginManagement {
     }
 }
 
+
 include(":SplitPane:library")
 include(":SplitPane:demo")
+include(":SplitPane:client")
