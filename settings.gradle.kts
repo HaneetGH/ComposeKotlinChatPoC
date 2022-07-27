@@ -17,9 +17,5 @@ pluginManagement {
 
 include(":SplitPane:library")
 include(":SplitPane:demo")
-include(
-    "dial-phone-api",
-    "dial-phone-bot",
-    "dial-phone-olm-machine"
-)
+
 //include(":SplitPane:trixnity-client")

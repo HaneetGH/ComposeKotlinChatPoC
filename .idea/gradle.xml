@@ -13,9 +13,6 @@
             <option value="$PROJECT_DIR$/SplitPane/demo" />
             <option value="$PROJECT_DIR$/SplitPane/library" />
             <option value="$PROJECT_DIR$/buildSrc" />
-            <option value="$PROJECT_DIR$/dial-phone-api" />
-            <option value="$PROJECT_DIR$/dial-phone-bot" />
-            <option value="$PROJECT_DIR$/dial-phone-olm-machine" />
           </set>
         </option>
       </GradleProjectSettings>
