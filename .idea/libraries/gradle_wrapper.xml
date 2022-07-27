@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="gradle-wrapper">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../trixnity/trixnity-olm/build/olm/3.2.8/android/gradle/wrapper/gradle-wrapper.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

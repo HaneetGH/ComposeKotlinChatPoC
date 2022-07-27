@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="olm-3.2.8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../trixnity/trixnity-olm/build/tmp/olm-3.2.8.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

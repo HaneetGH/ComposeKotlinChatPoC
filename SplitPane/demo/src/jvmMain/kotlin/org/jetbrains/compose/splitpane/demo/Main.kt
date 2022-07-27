@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.singleWindowApplication
+import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.Dispatchers
@@ -281,6 +282,7 @@ fun loadSvgPainter(url: String, density: Density): Painter =
 
 @Composable
 fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
+
     // val context = LocalContext.current
     LazyColumn(
         modifier = Modifier.fillMaxSize().background(Color(0XFF2f3e45)).cursorForHorizontalResize(),
@@ -299,6 +301,26 @@ fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
         }
     }
 
+    val client = HttpClient(Apache) {
+        MatrixConfig(baseUrl = Url("matrix.org"))
+    }
+    val accessToken = "Super secure Token"
+
+    val roomId = "!QtykxKocfZaZOUrTwp:matrix.org"
+
+    val response = client.rpc(SendMessage(
+        SendMessage.Url(roomId, "m.room.message", "nonce"),
+        buildJsonObject {
+            put("msgtype", "m.text")
+            put("body", "Hello World!")
+        }
+    ), accessToken)
+    val eventId = response.eventId
+
+    client.rpc(RedactEvent(
+        RedactEvent.Url(roomId, eventId, "nonce2"),
+        RedactEvent.Body(reason = "Was a bot!")
+    ), accessToken)
 
 }
 

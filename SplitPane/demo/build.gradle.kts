@@ -6,6 +6,10 @@ plugins {
     kotlin("plugin.serialization") version "1.5.10"
     id("org.jetbrains.compose")
 }
+val trixnityVersion = "2.0.0"
+
+fun trixnity(module: String, version: String = trixnityVersion) =
+    "net.folivo:trixnity-$module:$version"
 kotlin {
     jvm {}
     repositories {
@@ -17,13 +21,20 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":SplitPane:library"))
-                implementation(project(":SplitPane:client"))
+                implementation(project(":SplitPane:demo"))
+                    //implementation(trixnity("trixnity-client"))
+                implementation(project(":dial-phone-api"))
+                implementation(project(":dial-phone-bot"))
+                implementation(project(":dial-phone-olm-machine"))
+             //   implementation("io.github.dominaezzz.matrixkt:client:0.2.0")
+              //  implementation("io.github.dominaezzz.matrixkt:olm:0.2.0")
                 implementation("io.coil-kt:coil-compose:1.4.0")
                 implementation("androidx.compose.runtime:runtime-livedata:1.1.0")
                 implementation("io.ktor:ktor-client-core:1.6.4")
                 implementation("io.ktor:ktor-client-cio:1.6.4")
                 implementation("io.ktor:ktor-client-serialization:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                implementation(trixnity("olm"))
             }
         }
     }

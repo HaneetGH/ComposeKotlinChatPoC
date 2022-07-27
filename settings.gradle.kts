@@ -3,6 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven { url = uri("https://plugins.gradle.org/m2/") }
         google()
     }
 
@@ -16,4 +17,9 @@ pluginManagement {
 
 include(":SplitPane:library")
 include(":SplitPane:demo")
-include(":SplitPane:client")
+include(
+    "dial-phone-api",
+    "dial-phone-bot",
+    "dial-phone-olm-machine"
+)
+//include(":SplitPane:trixnity-client")
