@@ -21,9 +21,9 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":SplitPane:library"))
-                implementation(project(":SplitPane:demo"))
-                    //implementation(trixnity("trixnity-client"))
-             implementation("io.github.dominaezzz.matrixkt:client:0.2.0")
+                // implementation(project(":SplitPane:demo"))
+                //implementation(trixnity("trixnity-client"))
+                implementation("io.github.dominaezzz.matrixkt:client:0.2.0")
                 implementation("io.github.dominaezzz.matrixkt:olm:0.2.0")
                 implementation("io.coil-kt:coil-compose:1.4.0")
                 implementation("androidx.compose.runtime:runtime-livedata:1.1.0")

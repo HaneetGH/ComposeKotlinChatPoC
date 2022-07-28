@@ -300,28 +300,6 @@ fun printUserList(listOfUsers: MutableList<UserQuickDetails>) {
             }
         }
     }
-
-    val client = HttpClient(Apache) {
-        MatrixConfig(baseUrl = Url("matrix.org"))
-    }
-    val accessToken = "Super secure Token"
-
-    val roomId = "!QtykxKocfZaZOUrTwp:matrix.org"
-
-    val response = client.rpc(SendMessage(
-        SendMessage.Url(roomId, "m.room.message", "nonce"),
-        buildJsonObject {
-            put("msgtype", "m.text")
-            put("body", "Hello World!")
-        }
-    ), accessToken)
-    val eventId = response.eventId
-
-    client.rpc(RedactEvent(
-        RedactEvent.Url(roomId, eventId, "nonce2"),
-        RedactEvent.Body(reason = "Was a bot!")
-    ), accessToken)
-
 }
 
 class ClickUser(user: UserQuickDetails) {
