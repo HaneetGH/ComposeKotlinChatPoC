@@ -6,10 +6,10 @@ plugins {
     kotlin("plugin.serialization") version "1.5.10"
     id("org.jetbrains.compose")
 }
-val trixnityVersion = "2.0.0"
+//val trixnityVersion = "2.0.0"
 
-fun trixnity(module: String, version: String = trixnityVersion) =
-    "net.folivo:trixnity-$module:$version"
+//fun trixnity(module: String, version: String = trixnityVersion) =
+ //   "net.folivo:trixnity-$module:$version"
 kotlin {
     jvm {}
     repositories {
@@ -31,7 +31,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:1.6.4")
                 implementation("io.ktor:ktor-client-serialization:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
-                implementation(trixnity("olm"))
+                //implementation(trixnity("olm"))
             }
         }
     }
