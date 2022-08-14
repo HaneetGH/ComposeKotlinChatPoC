@@ -6,10 +6,6 @@ plugins {
     kotlin("plugin.serialization") version "1.5.10"
     id("org.jetbrains.compose")
 }
-//val trixnityVersion = "2.0.0"
-
-//fun trixnity(module: String, version: String = trixnityVersion) =
- //   "net.folivo:trixnity-$module:$version"
 kotlin {
     jvm {}
     repositories {
@@ -27,9 +23,12 @@ kotlin {
                 implementation("io.github.dominaezzz.matrixkt:olm:0.2.0")
                 implementation("io.coil-kt:coil-compose:1.4.0")
                 implementation("androidx.compose.runtime:runtime-livedata:1.1.0")
-                implementation("io.ktor:ktor-client-core:1.6.4")
-                implementation("io.ktor:ktor-client-cio:1.6.4")
-                implementation("io.ktor:ktor-client-serialization:1.6.4")
+                implementation("io.ktor:ktor-client-core:2.0.0")
+                implementation("io.ktor:ktor-client-cio:2.0.0")
+                implementation("io.ktor:ktor-client-serialization:2.0.0")
+                implementation("io.ktor:ktor-client-content-negotiation:2.0.0")
+                implementation("io.ktor:ktor-serialization-gson:2.0.0")
+                implementation("io.ktor:ktor-client-json:2.0.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
                 //implementation(trixnity("olm"))
             }

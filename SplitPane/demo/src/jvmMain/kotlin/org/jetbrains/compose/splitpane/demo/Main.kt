@@ -100,10 +100,11 @@ fun main() = singleWindowApplication(
     var jobone = CoroutineScope(Dispatchers.IO).launch {
 
         result = repository.getRandomUser()
+        repository.checkMyImp()
 
     }
     jobone.invokeOnCompletion { it ->
-        if (it==null) {
+        if (it == null) {
             result!!.results.forEach { it ->
                 var quickMessages = UserQuickDetails(
                     it.name.first,
