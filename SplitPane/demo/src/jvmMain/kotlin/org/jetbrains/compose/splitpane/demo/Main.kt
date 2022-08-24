@@ -34,11 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.singleWindowApplication
 import io.ktor.client.*
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
@@ -98,20 +95,16 @@ fun main() = singleWindowApplication(
     title = "SplitPane demo"
 ) {
     var jobone = CoroutineScope(Dispatchers.IO).launch {
-
-        result = repository.getRandomUser()
-       var res= repository.checkMyImp()
-
+        supervisorScope {
+            async {  result = repository.getRandomUser()}
+            async { var res = repository.checkMyImp()}
+        }
     }
     jobone.invokeOnCompletion { it ->
         if (it == null) {
             result!!.results.forEach { it ->
                 var quickMessages = UserQuickDetails(
-                    it.name.first,
-                    it.name.first,
-                    it.name.first,
-                    it.name.first,
-                    listOfChats[0]
+                    it.name.first, it.name.first, it.name.first, it.name.first, listOfChats[0]
                 )
                 listOfQuickDetails.add(quickMessages)
 
