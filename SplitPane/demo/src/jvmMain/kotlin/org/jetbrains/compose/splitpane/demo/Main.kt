@@ -100,7 +100,7 @@ fun main() = singleWindowApplication(
     var jobone = CoroutineScope(Dispatchers.IO).launch {
 
         result = repository.getRandomUser()
-        repository.checkMyImp()
+       var res= repository.checkMyImp()
 
     }
     jobone.invokeOnCompletion { it ->

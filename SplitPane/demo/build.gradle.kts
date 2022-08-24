@@ -30,6 +30,7 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-gson:2.0.0")
                 implementation("io.ktor:ktor-client-json:2.0.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                implementation ("io.ktor:ktor-client-apache:2.0.0")
                 //implementation(trixnity("olm"))
             }
         }

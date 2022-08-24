@@ -7,6 +7,7 @@ import io.github.matrixkt.clientserver.api.RedactEvent
 import io.github.matrixkt.clientserver.api.SendMessage
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.engine.apache.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
@@ -30,21 +31,23 @@ class Repository(
     }
 
     suspend fun checkMyImp() {
+        val client = HttpClient(Apache) {
+            MatrixConfig(baseUrl = Url("matrix.org").toString())
+        }
+        val accessToken = "syt_aGFuZWV0_tcXOIBcgjxiMoETpkSGH_1j59WU"
 
-        val accessToken = "Super secure Token"
-
-        val roomId = "!QtykxKocfZaZOUrTwp:matrix.org"
-
-        val response = mClient.rpc(SendMessage(SendMessage.Url(roomId, "m.room.message", "nonce"), buildJsonObject {
+        val roomId = "!qQtQBwAAEIjFizNvBF:matrix.org"
+        var rpc = SendMessage(SendMessage.Url(roomId, "m.room.message", "nonce"), buildJsonObject {
             put("msgtype", "m.text")
             put("body", "Hello World!")
-        }), accessToken)
+        })
+        val response = client.rpc(rpc, accessToken)
         val eventId = response.eventId
-
-        mClient.rpc(
-            RedactEvent(
-                RedactEvent.Url(roomId, eventId, "nonce2"), RedactEvent.Body(reason = "Was a bot!")
-            ), accessToken
+        var rpc1 = RedactEvent(
+            RedactEvent.Url(roomId, eventId, "nonce2"), RedactEvent.Body(reason = "Was a bot!")
+        )
+        client.rpc(
+            rpc1, accessToken
         )
     }
 
