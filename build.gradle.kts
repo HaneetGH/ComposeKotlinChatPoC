@@ -10,7 +10,6 @@ subprojects {
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
-
     plugins.withId("java") {
         configureIfExists<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_11
